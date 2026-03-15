@@ -1,0 +1,64 @@
+primero iré planteando el esquema general del programa
+catalogo[]  -irá guardando los productos que serán diccionarios {id, nombre, categoria, precio}
+carrito[]   -gurdará los productos elegidos
+
+el menú tendrá que estar en loop con while tipo
+while true:
+    abrir_menu()    -aqui mustra las opciones y redirige
+
+defnimos abrir_menu():
+    opcion=input("elija opcion:")
+    if(opcion 1):
+        listar_prodectos()
+    elif(opcion 2):
+        buscar_producto()
+    elif(opcion 3)
+        agregar_al_carrito()
+    elif(opcion 4):
+        mostrar_carrito()
+    elif(opcion 5):
+        vaciar_carrito()
+    elif(opcion 0):
+        print("saliendo...")
+        break
+    else:
+        print("ingrese una opcion válida")
+
+
+def listar_productos(catalogo):
+    FOR producto IN catalogo:
+        imprimir id, nombre, categoria, precio
+
+def buscar_productos(catalogo):
+    termino = input("Buscar por nombre o categoría:")
+    resultados = []
+    FOR p IN catalogo:
+        IF termino in p[nombre] OR p[categoria]:
+            resultados.append(p)
+imprimir resultados (o "no encontrado")
+
+def agregar_al_carrito(catalogo, carrito):
+    id_input = input("ID del producto:")
+    IF id_input NOT IN catalogo:
+        imprimir "ID no existe"
+        RETURN (salir de función)
+    cantidad = input("Cantidad:")
+        IF cantidad <= 0: mostrar error
+            producto = catalogo[id_input]
+            item = {producto, cantidad}
+            carrito.append(item)
+            imprimir "Producto agregado"
+            RETORNA carrito actualizado
+
+def mostrar_carrito(carrito):
+    IF carrito está vacío:
+        imprimir "Carrito vacío"
+        RETURN
+    total = 0
+    FOR item IN carrito:
+        subtotal = item[precio] * item[cantidad]
+        imprimir id, nombre, cant., subtotal
+        total += subtotal
+        imprimir "TOTAL: $", total
+        RETORNA total
+
