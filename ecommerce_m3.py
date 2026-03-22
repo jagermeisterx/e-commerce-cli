@@ -24,6 +24,29 @@ def listar_productos():
         for p in catalogo:
             print(f"ID: {p["id"]} \n Producto: {p["nombre"]} \n Categoría: {p["categoria"]} \n Precio: ${p["precio"]}")
 
+def buscar_producto(catalogo):
+    resultados = []
+    busqueda = input("Ingresa id del producto: ").lower()
+
+    for p in catalogo:
+        id_coincide = busqueda in str(p["id"])
+        if id_coincide:
+            resultados.append(p)
+            break
+
+    if len(resultados) == 0:
+        print("Producto no encontrado ...")
+    else:
+        producto = resultados[0]  # el diccionario encontrado
+        print(f"El id ingresado corresponde al producto: {producto['nombre']}")
+        print(f"Categoría: {producto['categoria']}")
+        print(f"Precio: ${producto['precio']}")
+            
+
+
+
+
+
 # ejecución principal
 while True:
     mostrar_menu()
@@ -33,7 +56,7 @@ while True:
         listar_productos()
 
     elif (opcion==2):
-        #buscar
+        buscar_producto(catalogo)
         print("")
     elif (opcion==3):
         #agregar al carro
