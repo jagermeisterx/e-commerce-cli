@@ -15,15 +15,16 @@ catalogo = [
 
 # definición de funciones
 def mostrar_menu():
-    print("Bienvenido a la tienda")
-    print("(1) Ver catálogo")
-    print("(2) Buscar producto")
-    print("(3) Agregar producto al carrito")
-    print("(4) Ver carrito y total")
-    print("(5) Vaciar carrito")
-    print("(0) Salir")
-
-    
+    hacer_separador(35)
+    print("*    Bienvenido a la tienda       *")
+    print("-----------------------------------")
+    print("* (1) Ver catálogo                *")
+    print("* (2) Buscar producto             *")
+    print("* (3) Agregar producto al carrito *")
+    print("* (4) Ver carrito y total         *")
+    print("* (5) Vaciar carrito              *")
+    print("* (0) Salir                       *")   
+    hacer_separador(35) 
 
 def listar_productos():
     if(len(catalogo)<=0):
@@ -54,6 +55,84 @@ def buscar_producto(catalogo):
             print(f"      Categoría : {producto['categoria']}")
             print(f"      Precio    : ${producto['precio']}")
             hacer_separador(50)
+
+
+def agregar_al_carrito(catalogo, carrito):
+    hacer_separador(35)
+    try:
+        id_input = int(input("Ingresa el ID del producto: "))
+    except ValueError:
+        print("El ID debe ser un número entero.")
+        return
+
+    # buscar el producto en el catálogo con .next() la primera es la condición y si no encuentra queda como none
+    producto = next(
+        (p for p in catalogo if p["id"] == id_input),
+        None
+    )
+
+    if producto is None:
+        print(f"No existe ningún producto con ID {id_input}.")
+        return
+
+    # pedir y validar la cantidad
+    try:
+        cantidad = int(input(f"¿Cuántas unidades de '{producto['nombre']}'? "))
+    except ValueError:
+        print("La cantidad debe ser un número entero.")
+        return
+
+    if cantidad <= 0:
+        print("La cantidad debe ser mayor a 0.")
+        return
+
+    # agregar al carrito o sumar si ya existe
+    for item in carrito:
+        if item["producto"]["id"] == id_input:
+            item["cantidad"] += cantidad
+            print(f"'{producto['nombre']}' ya estaba en el carrito. Cantidad actualizada a {item['cantidad']}.")
+            return
+
+    carrito.append({"producto": producto, "cantidad": cantidad})
+    print(f"'{producto['nombre']}' x{cantidad} agregado al carrito.")
+
+
+def mostrar_carrito_y_total(carrito):
+    hacer_separador(50)
+    
+    if len(carrito) == 0:
+        print("El carrito está vacío.")
+        hacer_separador(50)
+        return
+
+    print(f"{'ID':<5} {'Nombre':<22} {'Cant.':>5} {'P. Unit':>10} {'Subtotal':>10}")
+    hacer_separador(50)
+
+    total = 0
+    for item in carrito:
+        p        = item["producto"]
+        cantidad = item["cantidad"]
+        subtotal = p["precio"] * cantidad
+        total   += subtotal
+
+        print(f"{p['id']:<5} {p['nombre']:<22} {cantidad:>5} ${p['precio']:>9} ${subtotal:>9}")
+
+    hacer_separador(50)
+    print(f"{'TOTAL A PAGAR:':>43} ${total:>9}")
+    hacer_separador(50)
+
+
+def vaciar_carrito(carrito):
+    hacer_separador(35)
+
+    if len(carrito) == 0:
+        print("El carrito ya está vacío.")
+        hacer_separador(35)
+        return
+
+    carrito.clear()
+    print("El carrito ha sido vaciado.")
+    hacer_separador(35)
             
 def hacer_separador(cantidad):
     print("*" * cantidad)
@@ -66,25 +145,17 @@ while True:
     mostrar_menu()
     opcion = int(input("Ingrese la opción deseada: "))
     if (opcion==1):
-        #catalogo
         listar_productos()
-
     elif (opcion==2):
         buscar_producto(catalogo)
-        print("")
     elif (opcion==3):
-        #agregar al carro
-        print("")
+        agregar_al_carrito(catalogo, carrito)
     elif (opcion==4):
-        #mostrar carrito
-        print("")
+        mostrar_carrito_y_total(carrito)
     elif (opcion==5):
-        #vaciar carrito
-        print("")
+        vaciar_carrito(carrito)
     elif (opcion==0):
-        #salir
         print("Saliendodoooodo")
         break
     else:
-        #mostrar error
         print("opcion no válida...")
