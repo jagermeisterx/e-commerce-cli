@@ -27,13 +27,19 @@ def mostrar_menu():
     hacer_separador(35) 
 
 def listar_productos():
-    if(len(catalogo)<=0):
-        print("No hay productos en el catálogo. Volviendo al menú")
-    else:
-        hacer_separador(30)
-        for p in catalogo:
-            print(f"ID: {p["id"]} \n Producto: {p["nombre"]} \n Categoría: {p["categoria"]} \n Precio: ${p["precio"]}")
-            hacer_separador(30)
+    if len(catalogo) <= 0:
+        print("No hay productos en el catálogo. Volviendo al menú.")
+        return
+
+    ancho = max(len(p["nombre"]) for p in catalogo) + 20
+
+    for p in catalogo:
+        hacer_separador(ancho)
+        print(f"  ID       : {p['id']}")
+        print(f"  Nombre   : {p['nombre']}")
+        print(f"  Categoría: {p['categoria']}")
+        print(f"  Precio   : ${p['precio']}")
+    hacer_separador(ancho)
 
 def buscar_producto(catalogo):
     busqueda = input("Ingresa nombre o categoría a buscar: ").strip().lower()   #.strip() borra espacios innecesarios y .lower() los deja en minusculas
@@ -110,10 +116,10 @@ def mostrar_carrito_y_total(carrito):
 
     total = 0
     for item in carrito:
-        p        = item["producto"]
+        p = item["producto"]
         cantidad = item["cantidad"]
         subtotal = p["precio"] * cantidad
-        total   += subtotal
+        total += subtotal
 
         print(f"{p['id']:<5} {p['nombre']:<22} {cantidad:>5} ${p['precio']:>9} ${subtotal:>9}")
 
@@ -142,20 +148,23 @@ def hacer_separador(cantidad):
 
 # ejecución principal
 while True:
-    mostrar_menu()
-    opcion = int(input("Ingrese la opción deseada: "))
-    if (opcion==1):
-        listar_productos()
-    elif (opcion==2):
-        buscar_producto(catalogo)
-    elif (opcion==3):
-        agregar_al_carrito(catalogo, carrito)
-    elif (opcion==4):
-        mostrar_carrito_y_total(carrito)
-    elif (opcion==5):
-        vaciar_carrito(carrito)
-    elif (opcion==0):
-        print("Saliendodoooodo")
-        break
-    else:
-        print("opcion no válida...")
+    try:
+        mostrar_menu()
+        opcion = int(input("Ingrese la opción deseada: "))
+        if (opcion==1):
+            listar_productos()
+        elif (opcion==2):
+            buscar_producto(catalogo)
+        elif (opcion==3):
+            agregar_al_carrito(catalogo, carrito)
+        elif (opcion==4):
+            mostrar_carrito_y_total(carrito)
+        elif (opcion==5):
+            vaciar_carrito(carrito)
+        elif (opcion==0):
+            print("Vuelva pronto! ")
+            break
+        else:
+            print("opcion no válida...")
+    except ValueError:
+        print("Ingrese una opción válida ")
