@@ -129,16 +129,18 @@ def mostrar_carrito_y_total(carrito):
 
 
 def vaciar_carrito(carrito):
+    mensaje = ""
     hacer_separador(35)
 
     if len(carrito) == 0:
-        print("El carrito ya está vacío.")
+        mensaje = "El carrito ya está vacío."
         hacer_separador(35)
-        return
+        return mensaje
 
     carrito.clear()
-    print("El carrito ha sido vaciado.")
+    mensaje = "El carrito ha sido vaciado."
     hacer_separador(35)
+    return mensaje
             
 def hacer_separador(cantidad):
     print("*" * cantidad)
@@ -160,7 +162,8 @@ while True:
         elif (opcion==4):
             mostrar_carrito_y_total(carrito)
         elif (opcion==5):
-            vaciar_carrito(carrito)
+            mensaje_estado = vaciar_carrito(carrito)
+            print(mensaje_estado)
         elif (opcion==0):
             print("Vuelva pronto! ")
             break
